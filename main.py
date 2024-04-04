@@ -2,7 +2,7 @@ import requests, json, os, tarfile
 
 def savewrap(path, name, executable):
     with tarfile.open(name, "w") as tarhandle:
-        for root, dirs, files in os.walk(path):
+        for root, _, files in os.walk(path):
             for f in files:
                 cPath = os.path.join(root, f)
                 if cPath.startswith("./cache") or cPath.startswith("./libraries") or cPath.startswith("./versions") or cPath.startswith(f"./{executable}"):
