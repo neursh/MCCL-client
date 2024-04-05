@@ -7,7 +7,7 @@ def savewrap(path, name, executable):
                 cPath = os.path.join(root, f)
                 if cPath.startswith("./cache") or cPath.startswith("./libraries") or cPath.startswith("./versions") or cPath.startswith(f"./{executable}"):
                     continue
-                print(cPath)
+                print(f"-> {cPath}")
                 tarhandle.add(cPath)
 
 def main():
