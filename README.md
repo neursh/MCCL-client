@@ -19,7 +19,7 @@ After you've finished setup your MCCL Workers, it's time to setup the client for
 - Create a **server** folder.
 - Put your paper server in it.
 - Rename `config.template.json` to `config.json`.
-- Edit the command to whatever you want, but you must put the executable file at the 3rd index of the `cmd` array (`cmd[2]`).
+- Edit the command to whatever you want.
 - Change `service` to the URL of your MCCL workers.
 - After this step, you can pack everything up and send to other people to be able to host.
 - And on each host, replace `name` and `token` accordingly to the accepted user in MCCL workers.

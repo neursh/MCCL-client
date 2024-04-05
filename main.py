@@ -45,7 +45,7 @@ def main():
         for root, dirs, files in os.walk("./server"):
             for f in files:
                 cPath = os.path.join(root, f)
-                if cPath.startswith("./server\\cache") or cPath.startswith("./server\\libraries") or cPath.startswith("./server\\versions") or cPath.startswith(f"./server\\{config['cmd'][2]}"):
+                if cPath.startswith("./server\\cache") or cPath.startswith("./server\\libraries") or cPath.startswith("./server\\versions") or cPath.startswith(f"./server\\{config['executable']}"):
                     continue
                 os.remove(cPath)
         
@@ -70,7 +70,7 @@ def main():
     os.system(" ".join(config["cmd"]))
 
     print("[MCCL] Server closed! Wrapping things up...")
-    savewrap("./", "server.tar", config["cmd"][2])
+    savewrap("./", "server.tar", config["executable"])
 
     print("[MCCL] Uploading & stopping the session...")
     stopRes = None
