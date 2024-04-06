@@ -17,10 +17,14 @@ def main():
 
     headers = { "Authorization": f"{config['name']} {config['token']}" }
 
+    input("Fool proof, press Enter to continue...")
+
+    print(f"[MCCL] Checking for session...")
+
     sessionCheck = requests.get(f"{config['service']}/session/check", headers=headers).json()
 
     if sessionCheck["status"] == "running":
-        input(f"[MCCL] {sessionCheck['host']} is running the session!\n\nPress any key to close...")
+        input(f"[MCCL] {sessionCheck['host']} is running the session!\n\nPress Enter to close...")
         return
 
     print(f"[MCCL] Starting a session on behalf of {config['name']}...")
@@ -30,7 +34,7 @@ def main():
     if sessionStart.status_code == 200:
         print("[MCCL] Session started! Checking for latest update...")
     else:
-        input(f"[MCCL] {sessionStart['host']} is running the session!\n\nPress any key to close...")
+        input(f"[MCCL] {sessionStart['host']} is running the session!\n\nPress Enter to close...")
         return
     
     if config["localLastRun"] < sessionCheck["lastRun"]:
@@ -58,7 +62,7 @@ def main():
         print("[MCCL] Conflict detected! Canceling this session...\n")
         requests.get(f"{config['service']}/session/stop", headers=headers)
 
-        input("Press any key to close...")
+        input("Press Enter to close...")
         return
     else:
         print("[MCCL] No updates found!")
@@ -76,7 +80,7 @@ def main():
     stopRes = None
     part = 0
     with open("server.tar", 'rb') as sv:
-        des = sv.read(94371840)
+        des = sv.read(99999999)
         while des:
             stopRes = requests.post(
                 f"{config['service']}/session/upload/part{part}",
@@ -84,11 +88,11 @@ def main():
                 data=des,
                 timeout=None)
             if stopRes.status_code == 200:
-                des = sv.read(94371840)
+                des = sv.read(99999999)
                 part += 1
             elif stopRes.status_code != 501:
                 requests.get(f"{config['service']}/session/stop", headers=headers)
-                input("Something went wrong.\n\nPress any key to close...")
+                input("Something went wrong.\n\nPress Enter to close...")
                 return
     os.remove("server.tar")
 
@@ -97,7 +101,7 @@ def main():
     with open("config.json", "w") as rawConfig:
         json.dump(config, rawConfig)
     
-    input("[MCCL] Finished!\n\nPress any key to close...")
+    input("[MCCL] Finished!\n\nPress Enter to close...")
 
 if __name__ == "__main__":
     main()
