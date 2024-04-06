@@ -127,7 +127,7 @@ def main():
     with open("config.json", "w") as rawConfig:
         json.dump(config, rawConfig)
     
-    input("[MCCL] Finished!\n\nPress Enter to close...")
+    input("[MCCL] Session ended successfully!\n\nPress Enter to close...")
 
 if __name__ == "__main__":
     main()
