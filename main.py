@@ -44,7 +44,7 @@ def main():
         print("[MCCL] Update available. Downloading the latest patch...")
         with open("server.tar", "wb+") as serverFile:
             for part in range(sessionCheck["partsCount"]):
-                resp = requests.get(f"{config['service']}/session/update/part{part}", headers=headers, stream=True)
+                resp = requests.get(f"{config['service']}/session/update/part{part}", headers=headers, timeout=None, stream=True)
                 total = int(resp.headers.get('content-length', 0))
                 bar = tqdm(
                     desc=f"Part {part}",
@@ -94,7 +94,7 @@ def main():
     stopRes = None
     part = 0
     with open("server.tar", 'rb') as sv:
-        des = BytesIO(sv.read(99999999))
+        des = BytesIO(sv.read(90000000))
         total = des.getbuffer().nbytes
         while total > 0:
             bar = tqdm(
@@ -111,7 +111,7 @@ def main():
                 data=read_wrapper,
                 timeout=None)
             if stopRes.status_code == 200:
-                des = BytesIO(sv.read(99999999))
+                des = BytesIO(sv.read(90000000))
                 total = des.getbuffer().nbytes
                 if total > 0:
                     part += 1
