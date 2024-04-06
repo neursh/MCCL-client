@@ -1,4 +1,7 @@
 import requests, json, os, tarfile
+from io import BytesIO
+from tqdm.utils import CallbackIOWrapper
+from tqdm import tqdm
 
 def savewrap(path, name, executable):
     with tarfile.open(name, "w") as tarhandle:
@@ -41,9 +44,20 @@ def main():
         print("[MCCL] Update available. Downloading the latest patch...")
         with open("server.tar", "wb+") as serverFile:
             for part in range(sessionCheck["partsCount"]):
-                serverFile.write(
-                    requests.get(f"{config['service']}/session/update/part{part}", headers=headers).content
+                resp = requests.get(f"{config['service']}/session/update/part{part}", headers=headers, stream=True)
+                total = int(resp.headers.get('content-length', 0))
+                bar = tqdm(
+                    desc=f"Part {part}",
+                    total=total,
+                    unit='iB',
+                    unit_scale=True,
+                    unit_divisor=1024,
                 )
+                for data in resp.iter_content(chunk_size=1024):
+                    size = serverFile.write(data)
+                    bar.update(size)
+                
+                bar.close()
         
         print(f"[MCCL] Cleaning up files...")
         for root, dirs, files in os.walk("./server"):
@@ -80,20 +94,32 @@ def main():
     stopRes = None
     part = 0
     with open("server.tar", 'rb') as sv:
-        des = sv.read(99999999)
-        while des:
+        des = BytesIO(sv.read(99999999))
+        total = des.getbuffer().nbytes
+        while total > 0:
+            bar = tqdm(
+                desc=f"[MCCL] Uploading part {part}",
+                total=total,
+                unit='iB',
+                unit_scale=True,
+                unit_divisor=1024,
+            )
+            read_wrapper = CallbackIOWrapper(bar.update, des, "read")
             stopRes = requests.post(
                 f"{config['service']}/session/upload/part{part}",
                 headers=headers,
-                data=des,
+                data=read_wrapper,
                 timeout=None)
             if stopRes.status_code == 200:
-                des = sv.read(99999999)
-                part += 1
+                des = BytesIO(sv.read(99999999))
+                total = des.getbuffer().nbytes
+                if total > 0:
+                    part += 1
             elif stopRes.status_code != 501:
                 requests.get(f"{config['service']}/session/stop", headers=headers)
                 input("Something went wrong.\n\nPress Enter to close...")
                 return
+            bar.close()
     os.remove("server.tar")
 
     config["localLastRun"] = int(requests.post(f"{config['service']}/session/stop", headers=headers, json={ "partsCount": part }).json()["time"])
