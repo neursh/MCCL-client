@@ -74,9 +74,8 @@ def main():
 
     print("[MCCL] Uploading & stopping the session...")
     stopRes = None
-    part = -1
+    part = 0
     with open("server.tar", 'rb') as sv:
-        part += 1
         des = sv.read(94371840)
         while des:
             stopRes = requests.post(
@@ -86,6 +85,7 @@ def main():
                 timeout=None)
             if stopRes.status_code == 200:
                 des = sv.read(94371840)
+                part += 1
             elif stopRes.status_code != 501:
                 requests.get(f"{config['service']}/session/stop", headers=headers)
                 input("Something went wrong.\n\nPress any key to close...")
