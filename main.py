@@ -36,6 +36,19 @@ def main():
                                 headers=headers)
     if sessionStart.status_code == 200:
         print("[MCCL] Session started! Checking for latest update...")
+        try:
+            requests.post(
+                config['discord-webhook'],
+                json={
+                    "content":None,
+                    "embeds":[{
+                        "title": "Server opened",
+                        "description": f"The server is being hosted by {config['name']}!",
+                        "color": 39423
+                        }],
+                    "attachments":[]})
+        except:
+            pass
     else:
         input(f"[MCCL] {sessionStart['host']} is running the session!\n\nPress Enter to close...")
         return
@@ -126,6 +139,21 @@ def main():
     os.chdir(owd)
     with open("config.json", "w") as rawConfig:
         json.dump(config, rawConfig)
+
+    try:
+        requests.post(
+            config['discord-webhook'],
+            json={
+                "content":None,
+                "embeds":[{
+                    "title": "Server closed",
+                    "description": f"{config['name']} has closed the server.",
+                    "color": 39423
+                    }],
+                "attachments":[]}
+            )
+    except:
+        pass
     
     input("[MCCL] Session ended successfully!\n\nPress Enter to close...")
 
