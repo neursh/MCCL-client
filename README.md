@@ -19,7 +19,7 @@
 After you've finished setup your MCCL Workers, it's time to setup the client for it!
 
 - Download the latest build.
-- Create a **server** folder in the same folder that you've extracted the build.
+- Create a `server` folder in the same folder that you've extracted the build.
 - Put your server executable in it.
 - Take a look at `config.template.json` and make it yourself, put it in the same place as MCCL.
 - Provide `executable` and `cmd` for MCCL to work with.
