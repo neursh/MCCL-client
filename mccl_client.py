@@ -42,13 +42,14 @@ def main(session: requests.Session):
         print(f"[MCCL] {setupStart} is running the session!\n\nPress Enter to close...")
         return
     
-    print("[MCCL] Session started! Performing lock checking...")
+    print("[MCCL] Session started! Checking for update...")
 
     contentService = ContentService(session, loader.config)
 
-    totalBytes, getChunkTo = setup.compareLocks()
-
     if setup.updateAvailability():
+        print("[MCCL] Performing lock checking...")
+        totalBytes, getChunkTo = setup.compareLocks()
+        
         if not totalBytes:
             Utils.closeSession(session, loader.config)
             input("[MCCL] Cannot perform update without mapping on the cloud...\n\nPress Enter to close...")
