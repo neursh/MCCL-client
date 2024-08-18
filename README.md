@@ -6,7 +6,7 @@
 </h2>
 
 > [!WARNING]
-> This is an Alpha release.
+> This is an Alpha release. Tested on Windows 10/11.
 > 
 > Some errors is not handled, but if you do it correctly, I **THINK** it'll work.
 
