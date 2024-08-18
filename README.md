@@ -17,6 +17,8 @@
 > Cloudflare R2 have a free limit of 10 GB.
 > 
 > Try not to go over it. Use [MCA Selector](https://github.com/Querz/mcaselector) to clear unused chunks to reduce world size.
+> 
+> Smaller world size also makes updates and server uploads faster.
 
 ## Setup
 After you've finished setup your [MCCL Workers](https://github.com/neursh/MCCL-workers), it's time to setup the client for it!
@@ -31,7 +33,7 @@ After you've finished setup your [MCCL Workers](https://github.com/neursh/MCCL-w
     - `discordWebhook`: A webhook in case you want to announce server open / close (optional).
     - `localLastRun`: MCCL client's internal variable, do not change unless you know what you're doing.
     - `cmd`: Command to run the server.
-    - `excludeLockStructure`: Exclude folders/files in `server` folder when uploading the server to MCCL Workers.
+    - `excludeLockStructure`: Exclude folders/files in `server` folder when uploading the server to MCCL Workers. By default, executable is also excluded.
 - After this step, rename `config.template.json` to `config.json`, you can pack everything up and send to other people to be able to host.
 
 For example `config.json`:
