@@ -30,7 +30,7 @@ def main(session: requests.Session):
         print("[MCCL] Unauthorized, press Enter to exit...")
         return
     
-    if setupCheck != True:
+    if setupCheck is not True:
         input(f"[MCCL] {setupCheck} is running the session!\n\nPress Enter to close...")
         return
     
@@ -38,7 +38,7 @@ def main(session: requests.Session):
 
     setupStart = setup.start()
 
-    if setupStart != True:
+    if setupStart is not True:
         print(f"[MCCL] {setupStart} is running the session!\n\nPress Enter to close...")
         return
     

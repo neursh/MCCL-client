@@ -23,7 +23,7 @@ class ContentService:
                 total = int(resp.headers.get("content-length", 0))
 
                 bar = tqdm(
-                    desc=f"Server build",
+                    desc="Server build",
                     total=total,
                     unit="iB",
                     unit_scale=True,

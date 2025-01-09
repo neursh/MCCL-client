@@ -44,7 +44,6 @@ For example `config.json`:
     "service": "https://...workers.dev",
     "discordWebhook": "https://discord.com/api/webhooks/...",
     "localLastRun": 0,
-    "executable": "paper-1.20.4-464.jar",
     "cmd": ["java", "-jar", "paper-1.20.4-464.jar", "-nogui"],
     "excludeLockStructure": ["cache", "libraries", "versions", "logs", "crash-report"]
 }

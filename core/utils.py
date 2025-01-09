@@ -9,7 +9,7 @@ class Utils:
         for root, _, files in os.walk(path):
             for file in files:
                 cPath: str = os.path.join(root, file)
-                if any([cPath.startswith(f"{path}{excluded}") for excluded in config["excludeLockStructure"] + [config["executable"]]]):
+                if any([cPath.startswith(f"{path}{excluded}") for excluded in config["excludeLockStructure"]]):
                     continue
 
                 modifiedDate = os.path.getmtime(cPath)
