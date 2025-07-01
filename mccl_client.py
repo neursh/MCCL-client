@@ -70,7 +70,7 @@ def main(session: requests.Session):
     filum_instance = None
     if loader.config["filum"]:
         print("[MCCL] Filum found! Running host...")
-        filum_instance = subprocess.Popen(["filum", "host", "tcp", loader.config["filum"]])
+        filum_instance = subprocess.Popen(["filum", "host", "tcp", f"127.0.0.1:{loader.config["filum"][1]}"], executable=loader.config["filum"][0])
 
     print("[MCCL] Staring server...")
 
