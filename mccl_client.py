@@ -67,11 +67,19 @@ def main(session: requests.Session):
         else:
             print("[MCCL] No action needed to update.")
     
+    filum_instance = None
+    if loader.config["filum"]:
+        print("[MCCL] Filum found! Running host...")
+        filum_instance = subprocess.Popen(["filum", "host", "tcp", loader.config["filum"]])
+
     print("[MCCL] Staring server...")
 
     subprocess.Popen(loader.config["cmd"], cwd=".\\server\\").wait()
 
     print("\n\n[MCCL] Server closed! Wrapping things up...")
+
+    if filum_instance:
+        filum_instance.kill()
 
     if not contentService.archiveServerLock():
         Utils.closeSession(session, loader.config)

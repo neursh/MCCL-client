@@ -72,7 +72,7 @@ class Setup:
     def compareLocks(self):
         latestMapping = self.session.get(f"{self.config["service"]}/session/getMapping")
         if latestMapping.status_code == 404:
-            print("[MCCL] Can't find mapping structure file on the cloud.")
+            print("[MCCL] Can't find mapping structure file on the cloud. Exiting...")
             return None, None
         
         print("[MCCL] Reading mapping...")
