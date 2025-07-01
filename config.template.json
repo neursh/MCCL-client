@@ -5,5 +5,6 @@
     "discordWebhook": "https://discord.com/api/webhooks/...",
     "localLastRun": 0,
     "cmd": ["java", "-jar", "paper-1.20.4-464.jar", "-nogui"],
-    "excludeLockStructure": ["cache", "libraries", "versions", "logs", "crash-report", "paper-1.20.4-464.jar"]
+    "excludeLockStructure": ["cache", "libraries", "versions", "logs", "crash-report", "paper-1.20.4-464.jar"],
+    "filum": ["filum.exe", "25565"]
 }
