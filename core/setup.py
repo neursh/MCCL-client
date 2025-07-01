@@ -32,7 +32,7 @@ class Setup:
         
         return True
     
-    def start(self):
+    def start(self, filum_nodeid: str | None):
         sessionStart = self.session.get(self.withService("/session/start"))
 
         # 401 check already passed. No need to repeat.
@@ -49,7 +49,7 @@ class Setup:
                     "content": None,
                     "embeds": [{
                         "title": "Server opened",
-                        "description": f"The server is being hosted by {self.config["name"]}!",
+                        "description": f"The server is being hosted by {self.config["name"]}!{f"\nFilum node ID: `{filum_nodeid}`" if filum_nodeid else ""}",
                         "color": 39423
                         }],
                     "attachments":[],

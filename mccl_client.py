@@ -1,4 +1,5 @@
 import requests
+import re
 import subprocess
 from core.utils import Utils
 from core.config_loader import ConfigLoader
@@ -36,7 +37,19 @@ def main(session: requests.Session):
     
     print(f"[MCCL] Starting a session on behalf of {loader.config["name"]}...")
 
-    setupStart = setup.start()
+    filum_instance = None
+    filum_nodeid = None
+    if loader.config["filum"]:
+        print("[MCCL] Filum found! Running host...")
+        ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+        filum_instance = subprocess.Popen(["filum", "host", "tcp", f"127.0.0.1:{loader.config["filum"][1]}"], executable=loader.config["filum"][0], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
+        for line in iter(filum_instance.stdout.readline, ''):
+            line = ansi_escape.sub('', line.strip())
+            if line.startswith("ID: "):
+                filum_nodeid = line[3:]
+                break
+
+    setupStart = setup.start(filum_nodeid)
 
     if setupStart is not True:
         print(f"[MCCL] {setupStart} is running the session!\n\nPress Enter to close...")
@@ -66,11 +79,6 @@ def main(session: requests.Session):
                 return
         else:
             print("[MCCL] No action needed to update.")
-    
-    filum_instance = None
-    if loader.config["filum"]:
-        print("[MCCL] Filum found! Running host...")
-        filum_instance = subprocess.Popen(["filum", "host", "tcp", f"127.0.0.1:{loader.config["filum"][1]}"], executable=loader.config["filum"][0])
 
     print("[MCCL] Staring server...")
 
