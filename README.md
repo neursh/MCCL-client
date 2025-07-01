@@ -53,9 +53,29 @@ For example `config.json`:
 - Launch `mccl_client.exe` and start a session.
 - **DO NOT** quit by closing the terminal, call `stop` command in console and wait for MCCL to handle the rest, closing your terminal while the server is open could results in your world getting corrupted.
 
-## What's next?
-Well, do what you want with it.
+## Over the network
+### Filum (recommended)
+Filum is a small program to let you and other connect through peer-to-peer and acts like on local.
 
+Think of it as a way to connect to each other without port forwarding.
+- Head over to https://github.com/neursh/filum/releases and grab yourself a Filum binary.
+- Put the filum binary inside the same folder as MCCL client.
+- Add another option to `config.json`:
+```json
+{
+    "filum": ["<path_to_binary>", "<port>"]
+}
+```
+
+For example, the filum binary is in the same folder, and I want it to host on port 25565:
+```json
+{
+    "filum": ["filum", "25565"]
+}
+```
+
+You can read more on the Filum repo page on how to let client connect.
+
+### Alternative options
 - You can group everyone's devices together on Zero Tier or use Ngrok to expose TCP over the internet.
 - Or for the sake of simplicity, go for Radmin VPN, though I'm not a fan of it.
-- If you have a domain on Cloudflare however, I recommend using [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/).
