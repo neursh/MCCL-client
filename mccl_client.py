@@ -39,7 +39,7 @@ def main(session: requests.Session):
 
     filum_instance = None
     filum_nodeid = None
-    if loader.config["filum"]:
+    if "filum" in loader.config:
         print("[MCCL] Filum found! Running host...")
         ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
         filum_instance = subprocess.Popen(["filum", "host", "tcp", f"127.0.0.1:{loader.config["filum"][1]}"], executable=loader.config["filum"][0], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
