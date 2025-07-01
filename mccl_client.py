@@ -46,8 +46,10 @@ def main(session: requests.Session):
         for line in iter(filum_instance.stdout.readline, ''):
             line = ansi_escape.sub('', line.strip())
             if line.startswith("ID: "):
-                filum_nodeid = line[3:]
+                filum_nodeid = line[4:]
                 break
+        
+        print(f"[MCCL] Filum Node ID: {filum_nodeid}")
 
     setupStart = setup.start(filum_nodeid)
 
